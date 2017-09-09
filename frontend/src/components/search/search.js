@@ -3,15 +3,45 @@ import { Link } from 'react-router-dom';
 import './search.css';
 
 class Search extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      destination: null,
+      field: "",
+    };
+  }
+
+  search(e) {
+    e.preventDefault();
+    console.log(this.state.field);
+  }
+
+  updateField(e){
+    this.setState({field: e.target.value});
+  }
+  createDriverRoute(){
+
+  }
+  createPassengerRoute(){
+
+  }
+
   render() {
-    console.log(this.props);
     return (
       <div className="search">
-        <label>
-        <input type='text'></input>
-        </label>
-        <Link to='/driver'><button>Drive</button></Link>
-        <Link to='/passenger'><button>Ride</button></Link>
+        <form onSubmit={this.search.bind(this)}>
+          <label>
+            <input onChange={this.updateField.bind(this)} name='destination' type='text'></input>
+          </label>
+          <input value='search' type='submit'/>
+        </form>
+        {this.state.destination ?
+          (<div>
+            <Link to='/driver'><button>Drive</button></Link>
+            <Link to='/passenger'><button>Ride</button></Link>
+          </div>) : <span></span>
+        }
+
       </div>
     );
   }

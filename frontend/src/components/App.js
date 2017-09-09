@@ -12,9 +12,16 @@ class App extends Component {
     super(props);
     this.state = {
       passengerData: {
+        name: "Pidgeon",
         id: Math.floor(Math.random()*1000),
         pickup: null,
         dropoff: null,
+      },
+      driverData: {
+        name: "Driver8",
+        id: Math.floor(Math.random()*1000),
+        spots: [],
+        seatCount: 2,
       }
     };
   }
