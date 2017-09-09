@@ -41,7 +41,7 @@ class App extends Component {
           <Route path='/' component={Cancel} />
           <Route exact path='/' component={Welcome} />
           <Route exact path='/search' render={() => <Search {...this.state}/>}/>
-          <Route path='/search' component={Map} />
+          <Route path='/search' render={() => <Map google={this.props.google}/> } />
           <Route exact path='/passenger' component={PassengerTray} />
         </div>
     </BrowserRouter>
