@@ -39,7 +39,7 @@ client.on("error", function(error) {
   showText("RTM client failed: " + reason);
 });
 
-const channelName = "rider";
+const channelName = "riders";
 var channel = client.subscribe(channelName, RTM.SubscriptionMode.SIMPLE);
 
 channel.on("enter-subscribed", () => {
@@ -58,6 +58,7 @@ channel.on("rtm/subscription/data", function(pdu) {
     requestUrl: google
   }
    */
+  console.log(pdu.body);
 });
 
 channel.on("rtm/subscribe/error", function(pdu) {
