@@ -4,6 +4,7 @@ import './search.css';
 
 class Search extends Component {
   render() {
+    console.log(this.props);
     return (
       <div className="search">
         <label>
