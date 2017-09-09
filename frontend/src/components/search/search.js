@@ -34,7 +34,7 @@ class Search extends Component {
         <form onSubmit={this.search.bind(this)}>
           <label>
             <input
-              ref={(input) => { this.searchField = input; }} 
+              ref={(input) => { this.searchField = input; }}
               onChange={this.updateField.bind(this)}
               name='destination' type='text'></input>
           </label>
