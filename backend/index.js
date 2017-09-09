@@ -14,4 +14,7 @@ var RTM = require("satori-rtm-sdk");
 //   });
 
 // create an RTM client instance
-var rtm = new RTM("YOUR_ENDPOINT", "YOUR_APPKEY");
+var rtm = new RTM(
+  "wss://ywf1mnw0.api.satori.com",
+  "ACefAD440eE8EdeF52cf9eeACA0d5A1e"
+);
