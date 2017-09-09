@@ -7,6 +7,8 @@ import Search from './search/search';
 import Cancel from './cancel/cancel';
 import Map from './map/map';
 
+import RTMChannel from '../util/rtm_channel';
+
 class App extends Component {
   constructor(props){
     super(props);
@@ -24,7 +26,13 @@ class App extends Component {
         seatCount: 2,
       }
     };
+    const channel = new RTMChannel("riders", this.recieveData);
   }
+
+  recieveData(data){
+    console.log(data);
+  }
+
   render() {
     return (
       <BrowserRouter>

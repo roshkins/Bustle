@@ -10,7 +10,9 @@ class Search extends Component {
       field: "",
     };
   }
-
+  componentDidMount(){
+    this.searchField.focus();
+  }
   search(e) {
     e.preventDefault();
     console.log(this.state.field);
@@ -31,7 +33,10 @@ class Search extends Component {
       <div className="search">
         <form onSubmit={this.search.bind(this)}>
           <label>
-            <input onChange={this.updateField.bind(this)} name='destination' type='text'></input>
+            <input
+              ref={(input) => { this.searchField = input; }} 
+              onChange={this.updateField.bind(this)}
+              name='destination' type='text'></input>
           </label>
           <input value='search' type='submit'/>
         </form>
