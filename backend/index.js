@@ -39,4 +39,55 @@ client.on("error", function(error) {
   showText("RTM client failed: " + reason);
 });
 
+const channelName = "rider";
+var channel = client.subscribe(channelName, RTM.SubscriptionMode.SIMPLE);
+
+channel.on("enter-subscribed", () => {
+  showText("Subscribed to:" + channel.subscriptionId);
+});
+
+channel.on("leave-subscribed", function() {
+  console.log("Unsubscribed from: " + channel.subscriptionId);
+});
+
+/* set callback for PDU with specific action */
+channel.on("rtm/subscription/data", function(pdu) {
+  /* Expected request:
+    Typeof body is object. Matches:
+    {
+    requestUrl: google
+  }
+   */
+});
+
+channel.on("rtm/subscribe/error", function(pdu) {
+  console.log(
+    "Failed to subscribe. RTM replied with the error " +
+      pdu.body.error +
+      ": " +
+      pdu.body.reason
+  );
+});
+
+channel.on("rtm/subscription/error", function(pdu) {
+  console.log(
+    "Subscription failed. RTM sent the unsolicited error " +
+      pdu.body.error +
+      ": " +
+      pdu.body.reason
+  );
+});
+
 client.start();
+
+setInterval(() => {
+  const channelName = "riders";
+
+  const message = {
+    name: "Charlie",
+    id: 6,
+    pickup: "spot1",
+    dropoff: "spot2"
+  };
+  client.publish(channelName, message);
+}, 750);
