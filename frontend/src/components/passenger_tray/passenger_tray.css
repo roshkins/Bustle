@@ -1,0 +1,7 @@
+.passenger-tray {
+  position: absolute;
+  bottom: 0px;
+  height: 30%;
+  width: 100%;
+  background-color: #ddf;
+}
