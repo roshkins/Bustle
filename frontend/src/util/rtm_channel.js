@@ -23,7 +23,7 @@ class RTMChannel {
 
     /* set callback for PDU with specific action */
     channel.on("rtm/subscription/data", function(pdu) {
-      dataCallback(pdu.body);
+      pdu.body.messages.forEach(msg => dataCallback(msg));
     });
 
     this.client.start();

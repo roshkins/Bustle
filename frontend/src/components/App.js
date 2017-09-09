@@ -26,10 +26,8 @@ class App extends Component {
         seatCount: 2
       }
     };
-    const channel = new RTMChannel(
-      "riders",
-      d => console.log(d),
-      e => console.log(e)
+    const channel = new RTMChannel("riders", this.recieveData, e =>
+      console.log(e)
     );
     console.log(channel);
   }
