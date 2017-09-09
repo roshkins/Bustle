@@ -1,36 +1,40 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import './App.css';
-import PassengerTray from './passenger_tray/passenger_tray';
-import Welcome from './welcome/welcome';
-import Search from './search/search';
-import Cancel from './cancel/cancel';
-import Map from './map/map';
+import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import "./App.css";
+import PassengerTray from "./passenger_tray/passenger_tray";
+import Welcome from "./welcome/welcome";
+import Search from "./search/search";
+import Cancel from "./cancel/cancel";
+import Map from "./map/map";
 
-import RTMChannel from '../util/rtm_channel';
+import RTMChannel from "../util/rtm_channel";
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       passengerData: {
         name: "Pidgeon",
-        id: Math.floor(Math.random()*1000),
+        id: Math.floor(Math.random() * 1000),
         pickup: null,
-        dropoff: null,
+        dropoff: null
       },
       driverData: {
         name: "Driver8",
-        id: Math.floor(Math.random()*1000),
+        id: Math.floor(Math.random() * 1000),
         spots: [],
-        seatCount: 2,
+        seatCount: 2
       }
     };
-    const channel = new RTMChannel("riders", this.recieveData, (e) => console.log(e));
+    const channel = new RTMChannel(
+      "riders",
+      d => console.log(d),
+      e => console.log(e)
+    );
     console.log(channel);
   }
 
-  recieveData(data){
+  recieveData(data) {
     console.log(data);
   }
 
@@ -38,13 +42,17 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <Route path='/' component={Cancel} />
-          <Route exact path='/' component={Welcome} />
-          <Route exact path='/search' render={() => <Search {...this.state}/>}/>
-          <Route path='/search' component={Map} />
-          <Route exact path='/passenger' component={PassengerTray} />
+          <Route path="/" component={Cancel} />
+          <Route exact path="/" component={Welcome} />
+          <Route
+            exact
+            path="/search"
+            render={() => <Search {...this.state} />}
+          />
+          <Route path="/search" component={Map} />
+          <Route exact path="/passenger" component={PassengerTray} />
         </div>
-    </BrowserRouter>
+      </BrowserRouter>
     );
   }
 }
