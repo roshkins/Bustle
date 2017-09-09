@@ -5,7 +5,9 @@ class Welcome extends Component {
   render() {
     return (
       <div className="welcome">
-        <h2>Welcome</h2>
+        <h1>Bustle</h1>
+        <h2>instant ride pairing with friendly commuters</h2>
+        <button> Sign In </button>
       </div>
     );
   }
