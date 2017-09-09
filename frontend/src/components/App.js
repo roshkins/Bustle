@@ -7,7 +7,6 @@ import Search from './search/search';
 import Cancel from './cancel/cancel';
 import Map from './map/map';
 
-
 class App extends Component {
   constructor(props){
     super(props);
