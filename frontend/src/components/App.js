@@ -12,7 +12,11 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      driverSpots: "Stuff"
+      passengerData: {
+        id: Math.floor(Math.random()*1000),
+        pickup: null,
+        dropoff: null,
+      }
     };
   }
   render() {
