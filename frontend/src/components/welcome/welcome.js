@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-// import './welcome.css';
+import { Link } from 'react-router-dom';
+import './welcome.css';
 
 class Welcome extends Component {
   render() {
@@ -7,7 +8,10 @@ class Welcome extends Component {
       <div className="welcome">
         <h1>Bustle</h1>
         <h2>instant ride pairing with friendly commuters</h2>
-        <button> Sign In </button>
+        <label> name
+          <input type='text'></input>
+        </label>
+        <Link to='/search'><button>Sign In</button></Link>
       </div>
     );
   }
