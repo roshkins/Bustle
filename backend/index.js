@@ -177,7 +177,7 @@ setInterval(() => {
     dropoff: spots[interval.high]
   };
   client.publish(channelName, message);
-}, 750);
+}, 2750);
 
 setInterval(() => {
   const channelName = "drivers";
@@ -188,4 +188,4 @@ setInterval(() => {
     spots: spots.slice(interval.low, interval.high + 1)
   };
   if (message.spots.length >= 2) client.publish(channelName, message);
-}, 800);
+}, 200);
