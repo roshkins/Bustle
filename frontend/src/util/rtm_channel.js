@@ -36,6 +36,18 @@ class RTMChannel {
       setTimeout(() => this.publish(data), 100);
     }
   }
+
+  getTrip(passengerId, tripCallback) {
+    const channelName = "trips";
+    this.channel = this.client.subscribe(
+      channelName,
+      RTM.SubscriptionMode.SIMPLE,
+      { filter: "SELECT * FROM `trips` WHERE rider.id == " + passengerId }
+    );
+    this.channel.on("rtm/subscription/data", function(pdu) {
+      pdu.body.messages.forEach(msg => tripCallback(msg.driver));
+    });
+  }
 }
 
 export default RTMChannel;
