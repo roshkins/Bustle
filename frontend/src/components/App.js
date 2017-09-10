@@ -1,27 +1,27 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import './App.css';
-import PassengerTray from './passenger_tray/passenger_tray';
-import Welcome from './welcome/welcome';
-import Search from './search/search';
-import Cancel from './cancel/cancel';
-import Map from './map/map';
+import React, { Component } from "react";
+import { BrowserRouter, Route } from "react-router-dom";
+import "./App.css";
+import PassengerTray from "./passenger_tray/passenger_tray";
+import Welcome from "./welcome/welcome";
+import Search from "./search/search";
+import Cancel from "./cancel/cancel";
+import Map from "./map/map";
 
-import RTMChannel from '../util/rtm_channel';
+import RTMChannel from "../util/rtm_channel";
 
 class App extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       passengerData: {
         name: "Pidgeon",
-        id: Math.floor(Math.random()*1000),
+        id: Math.floor(Math.random() * 1000),
         pickup: null,
-        dropoff: null,
+        dropoff: null
       },
       driverData: {
         name: "Driver8",
-        id: Math.floor(Math.random()*1000),
+        id: Math.floor(Math.random() * 1000),
         spots: [],
         seatCount: 2,
       },
@@ -31,11 +31,13 @@ class App extends Component {
       //   time: 5,
       // },
     };
-    const channel = new RTMChannel("riders", this.recieveData, (e) => console.log(e));
+    const channel = new RTMChannel("riders", this.recieveData, e =>
+      console.log(e)
+    );
     console.log(channel);
   }
 
-  recieveData(data){
+  recieveData(data) {
     console.log(data);
   }
 
@@ -53,7 +55,7 @@ class App extends Component {
           <Route path='/app' render={() => <Map google={this.props.google}/> } />
           <Route path='/app/passenger' render={() => <PassengerTray walkToStop={this.walkToStop.bind(this)} inRange={this.state.inRange} pickupData={this.state.pickupData} {...this.state.passengerData} />} />
         </div>
-    </BrowserRouter>
+      </BrowserRouter>
     );
   }
 }
