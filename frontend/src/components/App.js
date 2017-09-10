@@ -10,17 +10,30 @@ import Map from "./map/map";
 
 import RTMChannel from "../util/rtm_channel";
 
+
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = {};
+    this.resetState();
+    this.channel = new RTMChannel("riders", this.recieveData.bind(this), e =>
+      console.log(e)
+    );
+  }
+
+  componentDidMount() {
+    this.channel.publish({ hello: "world" });
+  }
+
+  resetState(){
+    this.setState({
       passengerData: {
         name: "Pidgeon",
         id: Math.floor(Math.random() * 1000),
         pickup: null,
         dropoff: null,
-        destination: null
       },
+      destination: false,
       driverData: {
         name: "Driver8",
         id: Math.floor(Math.random() * 1000),
@@ -33,18 +46,21 @@ class App extends Component {
       //   driverName: "Blair",
       //   time: 5,
       // },
-    };
-    this.channel = new RTMChannel("riders", this.recieveData, e =>
-      console.log(e)
-    );
+    });
   }
 
-  componentDidMount() {
-    this.channel.publish({ hello: "world" });
+  sendDriver(){
+    console.log('SEND DRIVER');
+  }
+
+  sendPassenger(){
+    console.log("SEND PASSENGER");
   }
 
   recieveData(data) {
-    console.log(data);
+    if (!this.state.pickupData){
+      this.setState({ pickupData: data })
+    }
   }
 
   walkToStop() {
@@ -56,7 +72,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <Route path="/" component={Cancel} />
+          <Route path="/"
+            render={() => <Cancel resetState={ this.resetState.bind(this) } />}
+          />
           <Route
             exact
             path="/"
@@ -75,12 +93,15 @@ class App extends Component {
               <Search
                 destinationChange={destination => {
                   this.setState({
-                    passengerData: { ...this.state.passengerData, destination }
+                    destination: destination
                   });
                 }}
                 searchDestination={queryWords => {
                   this.state.searchDestination(queryWords);
                 }}
+                destination={this.state.destination}
+                sendDriver={this.sendDriver.bind(this)}
+                sendPassenger={this.sendPassenger.bind(this)}
               />}
           />
           <Route
@@ -92,9 +113,11 @@ class App extends Component {
                   this.setState({ searchDestination: cb });
                 }}
                 setDestination={destination => {
-                  this.setState({ passengerData: { destination } });
+                  this.setState({ destination: destination });
                 }}
                 google={this.props.google}
+
+
               />}
           />
           <Route
@@ -107,12 +130,12 @@ class App extends Component {
                 {...this.state.passengerData}
               />}
           />
-          <Route 
-            path='/app/driver' 
-            render={ () => 
-              <DriverTray 
+          <Route
+            path='/app/driver'
+            render={ () =>
+              <DriverTray
               passengerData={this.state.passengerData}
-            />} 
+            />}
           />
         </div>
       </BrowserRouter>
