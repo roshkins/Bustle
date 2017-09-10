@@ -29,7 +29,7 @@ class Map extends Component {
     props.searchCallback(keyword => {
       this.search(keyword, this.googleMap.getCenter(), "500", newMarkers => {
         this.setState({
-          markers: [...this.state.markers, ...newMarkers]
+          markers: [newMarkers[0]]
         });
       });
     });
