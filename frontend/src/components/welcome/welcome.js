@@ -11,7 +11,7 @@ class Welcome extends Component {
         <label> name
           <input type='text'></input>
         </label>
-        <Link to='/search'><button>Sign In</button></Link>
+        <Link to='/app/search'><button>Sign In</button></Link>
       </div>
     );
   }

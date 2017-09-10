@@ -40,9 +40,9 @@ class App extends Component {
         <div className="App">
           <Route path='/' component={Cancel} />
           <Route exact path='/' component={Welcome} />
-          <Route exact path='/search' render={() => <Search {...this.state}/>}/>
-          <Route path='/search' render={() => <Map google={this.props.google}/> } />
-          <Route exact path='/passenger' component={PassengerTray} />
+          <Route exact path='/app/search' render={() => <Search {...this.state}/>}/>
+          <Route path='/app' render={() => <Map google={this.props.google}/> } />
+          <Route path='/app/passenger' component={PassengerTray} />
         </div>
     </BrowserRouter>
     );
