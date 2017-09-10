@@ -57,12 +57,12 @@ class Map extends Component {
       keyword,
       radius
     };
-    this.service.nearbySearch(request, r => {
-      const newMarkers = r.map(place => ({
+    this.service.nearbySearch(request, response => {
+      const newMarkers = response.map(place => ({
         position: {
           lat: place.geometry.location.lat(),
           lng: place.geometry.location.lng()
-        }
+        },
       }));
       this.props.setDestination(newMarkers[0]);
       markerCb(newMarkers);

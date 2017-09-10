@@ -46,10 +46,12 @@ class Search extends Component {
           ? <div className = "drive-ride-buttons">
               <p>{this.state.queryWords}</p>
               <Link to="/app/driver">
-                <button>Drive</button>
+                <button onClick={this.props.sendDriver}>
+                  Drive</button>
               </Link>
               <Link to="/app/passenger">
-                <button>Ride</button>
+                <button onClick={this.props.sendPassenger}>
+                  Ride</button>
               </Link>
             </div>
           : <span />}

@@ -16,7 +16,7 @@ class App extends Component {
     super(props);
     this.state = {};
     this.resetState();
-    this.channel = new RTMChannel("riders", this.recieveData, e =>
+    this.channel = new RTMChannel("riders", this.recieveData.bind(this), e =>
       console.log(e)
     );
   }
@@ -49,8 +49,18 @@ class App extends Component {
     });
   }
 
+  sendDriver(){
+    console.log('SEND DRIVER');
+  }
+
+  sendPassenger(){
+    console.log("SEND PASSENGER");
+  }
+
   recieveData(data) {
-    console.log(data);
+    if (!this.state.pickupData){
+      this.setState({ pickupData: data })
+    }
   }
 
   walkToStop() {
@@ -90,6 +100,8 @@ class App extends Component {
                   this.state.searchDestination(queryWords);
                 }}
                 destination={this.state.destination}
+                sendDriver={this.sendDriver.bind(this)}
+                sendPassenger={this.sendPassenger.bind(this)}
               />}
           />
           <Route
