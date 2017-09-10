@@ -42,8 +42,8 @@ class Search extends Component {
         </form>
         {this.state.destination ?
           (<div>
-            <Link to='/driver'><button>Drive</button></Link>
-            <Link to='/passenger'><button>Ride</button></Link>
+            <Link to='/app/driver'><button>Drive</button></Link>
+            <Link to='/app/passenger'><button>Ride</button></Link>
           </div>) : <span></span>
         }
 
