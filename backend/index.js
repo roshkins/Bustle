@@ -138,11 +138,25 @@ function randomIntervalInRange(low, high) {
   return { high: highReturn, low: randomIntegerInRange(low, highReturn) };
 }
 
+const names = [
+  "Fred",
+  "Ann",
+  "Susan",
+  "Satori",
+  "AngelHack",
+  "Sam",
+  "Rashi",
+  "Jordan",
+  "Howard",
+  "Cascadia",
+  "Terrence"
+];
+
 setInterval(() => {
   const channelName = "riders";
   const interval = randomIntervalInRange(0, spots.length - 1);
   const message = {
-    name: "Charlie",
+    name: names[Math.floor(names.length * Math.random())],
     id: Math.floor(Math.random() * 1000),
     pickup: spots[interval.low],
     dropoff: spots[interval.high]
@@ -154,7 +168,7 @@ setInterval(() => {
   const channelName = "drivers";
   const interval = randomIntervalInRange(0, spots.length - 1);
   const message = {
-    name: "Fred",
+    name: names[Math.floor(names.length * Math.random())],
     id: Math.floor(Math.random() * 1000),
     spots: spots.slice(interval.low, interval.high + 1)
   };
