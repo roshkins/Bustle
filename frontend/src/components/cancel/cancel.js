@@ -6,7 +6,7 @@ class Cancel extends Component {
   render() {
     return (
       <div className="cancel">
-        <Link to='/'><button>Cancel</button></Link>
+        <Link to='/'><button onClick={this.props.resetState}>Cancel</button></Link>
       </div>
     );
   }

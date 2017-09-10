@@ -21,6 +21,7 @@ class Search extends Component {
   createPassengerRoute() {}
 
   render() {
+    console.log(this.props.destination)
     return (
       <div className="search">
         <form
@@ -41,8 +42,9 @@ class Search extends Component {
           </label>
           <input value="search" type="submit" />
         </form>
-        {this.props.completedSearch
-          ? <div>
+        {this.props.destination
+          ? <div className = "drive-ride-buttons">
+              <p>{this.state.queryWords}</p>
               <Link to="/app/driver">
                 <button>Drive</button>
               </Link>

@@ -26,6 +26,10 @@ body{
   margin: 2%;
   background-color: #dde;
   border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 button {
