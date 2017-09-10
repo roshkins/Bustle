@@ -6,7 +6,7 @@ class DriverTray extends Component {
   render() {
     const passenger = this.props.passengerData;
     return (
-      <div className="driver-tray">
+      <div className="tray">
         <Route path='/app/driver/confirm' render={() => (
           <div>
             <p>I have <input type='number' defaultValue={2}></input> extra seats</p>

@@ -37,7 +37,7 @@ class PassengerTray extends Component {
     };
 
     return (
-      <div className="passenger-tray">
+      <div className="tray">
         <h2></h2>
         <UI/>
       </div>
