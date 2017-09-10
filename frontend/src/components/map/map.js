@@ -26,6 +26,13 @@ class Map extends Component {
   constructor(props) {
     super(props);
     this.state = { markers: [] };
+    props.searchCallback(keyword => {
+      this.search(keyword, this.googleMap.getCenter(), "500", newMarkers => {
+        this.setState({
+          markers: [...this.state.markers, ...newMarkers]
+        });
+      });
+    });
   }
 
   mapsMount(googleMap) {
@@ -40,6 +47,23 @@ class Map extends Component {
     }
   }
 
+  search(keyword, location, radius, markerCb) {
+    const request = {
+      location,
+      keyword,
+      radius
+    };
+    this.service.nearbySearch(request, r => {
+      const newMarkers = r.map(place => ({
+        position: {
+          lat: place.geometry.location.lat(),
+          lng: place.geometry.location.lng()
+        }
+      }));
+      this.props.setDestination(newMarkers[0]);
+      markerCb(newMarkers);
+    });
+  }
   render() {
     return (
       <div className="map">
@@ -53,26 +77,7 @@ class Map extends Component {
             />
           }
           onMapLoad={() => console.log("mapload")}
-          onMapClick={() => {
-            const request = {
-              location: this.googleMap.getCenter(),
-              keyword: "100 mission st",
-              radius: "500"
-            };
-            this.service.nearbySearch(request, r => {
-              const newMarkers = r.map(place => ({
-                position: {
-                  lat: place.geometry.location.lat(),
-                  lng: place.geometry.location.lng()
-                }
-              }));
-              this.setState({
-                markers: [...this.state.markers, ...newMarkers]
-              });
-              // this.setState();
-              // console.log(this.state.markers)
-            });
-          }}
+          // onMapClick={}
           markers={this.state.markers}
         />
       </div>
