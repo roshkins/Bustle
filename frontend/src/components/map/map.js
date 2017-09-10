@@ -41,6 +41,7 @@ class Map extends Component {
     this.googleMap = googleMap;
     if (!this.hasMounted) {
       this.hasMounted = true;
+      this.directionsService = new this.props.google.maps.DirectionsService();
       this.service = new this.props.google.maps.places.PlacesService(
         googleMap.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
       );
@@ -77,7 +78,19 @@ class Map extends Component {
             />
           }
           onMapLoad={() => console.log("mapload")}
-          // onMapClick={}
+          onMapClick={() => {
+            var request = {
+                    origin:"twitter",
+                    destination:"starbucks",
+                    travelMode: this.props.google.maps.TravelMode.DRIVING
+              };
+            this.directionsService.route(request, (response, status) => {
+              if (status == this.props.google.maps.DirectionsStatus.OK) {
+                console.log(response);
+                // this.directionsDisplay.setDirections(response);
+              }
+            });
+          }}
           markers={this.state.markers}
         />
       </div>
