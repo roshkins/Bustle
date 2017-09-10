@@ -44,9 +44,9 @@ class RTMChannel {
       RTM.SubscriptionMode.SIMPLE,
       {
         filter:
-          "SELECT * FROM `trips` WHERE rider.id == " +
+          "SELECT * FROM `trips` WHERE rider.id = " +
           passengerId +
-          "OR driver.id == " +
+          "OR driver.id = " +
           passengerId
       }
     );

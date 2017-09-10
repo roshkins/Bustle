@@ -16,7 +16,7 @@ class App extends Component {
     this.state = {
       passengerData: {
         name: "Pidgeon",
-        id: Math.floor(Math.random() * 1000),
+        id: 12,
         pickup: null,
         dropoff: null
       },
@@ -82,7 +82,6 @@ class App extends Component {
   }
 
   sendPassenger() {
-    clearInterval(this.broadcastInterval);
     this.state.spotSearch(`${this.state.destination.position.lat}, ${this.state.destination.position.lng}`, (spots) => {
       this.setState({
         passengerData: {
@@ -91,23 +90,26 @@ class App extends Component {
           dropoff: spots[spots.length-1]
         }
       })
-      this.broadcastInterval = setInterval(() => {
-        this.channel.publish(this.state.passengerData);
-      }, 1000);
-      this.channel.getTrip(this.state.passengerData.id, res => {
-        console.log("found a driver", res.driver);
-      });
+
     });
   }
 
   recieveData(data) {
-    if (!this.state.pickupData) {
-      this.setState({ pickupData: data });
-    }
+    console.log(data);
   }
 
   walkToStop() {
+    clearInterval(this.broadcastInterval);
     this.setState({ inRange: true });
+    this.broadcastInterval = setInterval(() => {
+      this.channel.publish(this.state.passengerData);
+    }, 1000);
+    this.channel.getTrip(this.state.passengerData.id, res => {
+      console.log("found a driver", res.driver);
+      if (this.state.pickupData){ return null };
+      this.setState({ pickupData: res.driver })
+      // clearInterval(this.broadcastInterval);
+    });
   }
   //passenger Tray props: inRange, inCar, pickupData (checks for presence)
   render() {

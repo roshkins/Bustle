@@ -19,7 +19,7 @@ class DriverTray extends Component {
         )}/>
         <Route path='/app/driver/alert' render={() => (
           <div className='alert'>
-            <p>{passenger.name} (friends of Clair) is waiting at {passenger.pickup}</p>
+            <p>{passenger.name} (friends of Claire) is waiting at {passenger.pickup}</p>
             <Link to='/app/driver/driving'><button>Decline</button></Link>
             <Link to='/app/driver/pickup'><button>Pickup</button></Link>
           </div>
