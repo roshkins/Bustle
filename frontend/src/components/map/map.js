@@ -41,6 +41,10 @@ class Map extends Component {
     this.googleMap = googleMap;
     if (!this.hasMounted) {
       this.hasMounted = true;
+      this.directionsService = new this.props.google.maps.DirectionsService();
+      this.directionsDisplay = new this.props.google.maps.DirectionsRenderer();
+      this.directionsDisplay.setMap(this.googleMap);
+
       this.service = new this.props.google.maps.places.PlacesService(
         googleMap.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
       );
@@ -65,6 +69,7 @@ class Map extends Component {
     });
   }
   render() {
+    const google = this.props.google;
     return (
       <div className="map">
         <GettingStartedGoogleMap
@@ -77,7 +82,24 @@ class Map extends Component {
             />
           }
           onMapLoad={() => console.log("mapload")}
-          // onMapClick={}
+          onMapClick={() => {
+            var request = {
+                    origin:"twitter",
+                    destination:"city hall",
+                    travelMode: google.maps.TravelMode.DRIVING
+              };
+            this.directionsService.route(request, (response, status) => {
+              if (status === "OK") {
+                const stopLocation = new google.maps.LatLng(46.0, -125.9);
+                const routePolyline = new google.maps.Polyline({
+                  path: response.routes[0].overview_path,
+                });
+                const onLine = google.maps.geometry.poly.isLocationOnEdge(stopLocation, routePolyline, 8);
+                console.log(onLine);
+              }
+            });
+
+          }}
           markers={this.state.markers}
         />
       </div>
