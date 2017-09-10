@@ -14,7 +14,27 @@ import RTMChannel from "../util/rtm_channel";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      passengerData: {
+        name: "Pidgeon",
+        id: Math.floor(Math.random() * 1000),
+        pickup: null,
+        dropoff: null,
+      },
+      destination: false,
+      driverData: {
+        name: "Driver8",
+        id: Math.floor(Math.random() * 1000),
+        spots: [],
+        seatCount: 2
+      },
+      pickupData: null,
+      searchDestination: null
+      //  {
+      //   driverName: "Blair",
+      //   time: 5,
+      // },
+    };
     this.broadcastInterval = null;
     this.resetState();
     this.channel = new RTMChannel("riders", this.recieveData.bind(this), e =>
@@ -56,6 +76,7 @@ class App extends Component {
     this.broadcastInterval = setInterval(() => {
       this.channel.publish(this.state.driverData)
     }, 1000);
+    console.log(this.state)
     this.channel.getTrip(this.state.driverData.id, res => {
       console.log("found a rider", res);
     });
