@@ -7,29 +7,26 @@ class PassengerTray extends Component {
   }
 
   render() {
-    const Walk = (
-      <div>Walk to pickup location</div>
-    );
-    const Wait = (
-      <div>Wait for a car</div>
-    );
-    const InCar = (
-      <div>Get Off at {this.props.dropoff}</div>
-    );
     const UI = () => {
       if (this.props.pickupData){
         return (
           <div className="alert">
             {this.props.pickupData.driverName} (friends with Clair) is arriving in {this.props.pickupData.time} minutes
           </div>
-        )
+        );
       }
       if (this.props.inCar){
-        return InCar;
+        return (
+          <div>Get Off at {this.props.dropoff}</div>
+        );
       } else if (this.props.inRange){
-        return Wait;
+        return (
+          <div>Wait for a car</div>
+        );
       } else {
-        return Walk;
+        return (
+          <div>Walk to pickup location</div>
+        );
       }
     };
 
