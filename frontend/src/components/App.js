@@ -10,7 +10,6 @@ import Map from "./map/map";
 
 import RTMChannel from "../util/rtm_channel";
 
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +18,7 @@ class App extends Component {
         name: "Pidgeon",
         id: Math.floor(Math.random() * 1000),
         pickup: null,
-        dropoff: null,
+        dropoff: null
       },
       destination: false,
       driverData: {
@@ -46,13 +45,13 @@ class App extends Component {
     this.channel.publish({ hello: "world" });
   }
 
-  resetState(){
+  resetState() {
     this.setState({
       passengerData: {
         name: "Pidgeon",
         id: Math.floor(Math.random() * 1000),
         pickup: null,
-        dropoff: null,
+        dropoff: null
       },
       destination: false,
       driverData: {
@@ -70,32 +69,32 @@ class App extends Component {
     });
   }
 
-  sendDriver(){
-    console.log('SEND DRIVER');
+  sendDriver() {
+    console.log("SEND DRIVER");
     clearInterval(this.broadcastInterval);
     this.broadcastInterval = setInterval(() => {
-      this.channel.publish(this.state.driverData)
+      this.channel.publish(this.state.driverData);
     }, 1000);
-    console.log(this.state)
+    console.log(this.state);
     this.channel.getTrip(this.state.driverData.id, res => {
-      console.log("found a rider", res);
+      console.log("found a rider", res.rider);
     });
   }
 
-  sendPassenger(){
+  sendPassenger() {
     console.log("SEND PASSENGER");
     clearInterval(this.broadcastInterval);
     this.broadcastInterval = setInterval(() => {
-      this.channel.publish(this.state.passengerData)
+      this.channel.publish(this.state.passengerData);
     }, 1000);
     this.channel.getTrip(this.state.passengerData.id, res => {
-      console.log("found a driver", res);
+      console.log("found a driver", res.driver);
     });
   }
 
   recieveData(data) {
-    if (!this.state.pickupData){
-      this.setState({ pickupData: data })
+    if (!this.state.pickupData) {
+      this.setState({ pickupData: data });
     }
   }
 
@@ -108,8 +107,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <Route path="/"
-            render={() => <Cancel resetState={ this.resetState.bind(this) } />}
+          <Route
+            path="/"
+            render={() => <Cancel resetState={this.resetState.bind(this)} />}
           />
           <Route
             exact
@@ -152,8 +152,6 @@ class App extends Component {
                   this.setState({ destination: destination });
                 }}
                 google={this.props.google}
-
-
               />}
           />
           <Route
@@ -167,11 +165,9 @@ class App extends Component {
               />}
           />
           <Route
-            path='/app/driver'
-            render={ () =>
-              <DriverTray
-              passengerData={this.state.passengerData}
-            />}
+            path="/app/driver"
+            render={() =>
+              <DriverTray passengerData={this.state.passengerData} />}
           />
         </div>
       </BrowserRouter>
