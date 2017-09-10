@@ -25,7 +25,13 @@ class PassengerTray extends Component {
         );
       } else {
         return (
-          <div>Walk to pickup location</div>
+          <div>
+            Walk to pickup location <br></br>
+            <button
+              onClick={this.props.walkToStop}>
+              I'm Here
+            </button>
+          </div>
         );
       }
     };

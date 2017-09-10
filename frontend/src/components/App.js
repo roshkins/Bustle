@@ -25,10 +25,11 @@ class App extends Component {
         spots: [],
         seatCount: 2,
       },
-      pickupData: {
-        driverName: "Blair",
-        time: 5,
-      },
+      pickupData:null
+      //  {
+      //   driverName: "Blair",
+      //   time: 5,
+      // },
     };
     const channel = new RTMChannel("riders", this.recieveData, (e) => console.log(e));
     console.log(channel);
@@ -38,6 +39,10 @@ class App extends Component {
     console.log(data);
   }
 
+  walkToStop(){
+    this.setState({inRange: true});
+  }
+  //passenger Tray props: inRange, inCar, pickupData (checks for presence)
   render() {
     return (
       <BrowserRouter>
@@ -46,7 +51,7 @@ class App extends Component {
           <Route exact path='/' component={Welcome} />
           <Route exact path='/app/search' render={() => <Search {...this.state}/>}/>
           <Route path='/app' render={() => <Map google={this.props.google}/> } />
-          <Route path='/app/passenger' render={() => <PassengerTray pickupData={this.state.pickupData} {...this.state.passengerData} />} />
+          <Route path='/app/passenger' render={() => <PassengerTray walkToStop={this.walkToStop.bind(this)} inRange={this.state.inRange} pickupData={this.state.pickupData} {...this.state.passengerData} />} />
         </div>
     </BrowserRouter>
     );
