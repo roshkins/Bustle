@@ -11,22 +11,22 @@ class PassengerTray extends Component {
       if (this.props.pickupData){
         return (
           <div className="alert">
-            {this.props.pickupData.driverName} (friends with Clair) is arriving in {this.props.pickupData.time} minutes
+            <p>{this.props.pickupData.name} (friends with Clair) is arriving in {this.props.pickupData.time || 6} minutes</p>
           </div>
         );
       }
       if (this.props.inCar){
         return (
-          <div>Get Off at {this.props.dropoff}</div>
+          <div><p>Get Off at {this.props.dropoff}</p></div>
         );
       } else if (this.props.inRange){
         return (
-          <div>Wait for a car</div>
+          <div><p>Wait for a car</p></div>
         );
       } else {
         return (
           <div>
-            Walk to pickup location <br></br>
+            <p>Walk to pickup location</p>
             <button
               onClick={this.props.walkToStop}>
               I'm Here

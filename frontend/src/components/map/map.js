@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withGoogleMap, GoogleMap, Marker } from "react-google-maps";
 import "./map.css";
+import { spots } from '../../util/spots'
 
 const googleMapURL =
   "https://maps.googleapis.com/maps/api/js?v=3.27&libraries=places,geometry&key=AIzaSyCvd5Ry4IK_o-C4LSNwdSuC1-gEhRSahlE&libraries=places";
@@ -8,8 +9,8 @@ const googleMapURL =
 const GettingStartedGoogleMap = withGoogleMap(props =>
   <GoogleMap
     ref={props.mapsMount}
-    defaultZoom={14}
-    defaultCenter={{ lat: 37.773568, lng: -122.4159416 }}
+    defaultZoom={12}
+    defaultCenter={{ lat: 37.961723, lng: -122.524824 }}
     onClick={props.onMapClick}
   >
     {props.markers.map((marker, index) =>
@@ -25,7 +26,8 @@ const GettingStartedGoogleMap = withGoogleMap(props =>
 class Map extends Component {
   constructor(props) {
     super(props);
-    this.state = { markers: [] };
+    props.spotSearchCallback((destination, callback) => this.generateRoute("37.931004, -122.515136", destination, callback));
+    this.state = { markers: spots };
     props.searchCallback(keyword => {
       this.search(keyword, this.googleMap.getCenter(), "500", newMarkers => {
         this.setState({
@@ -51,21 +53,28 @@ class Map extends Component {
     }
   }
 
-  generateRoute(){
+  generateRoute(origin, destination, cb){
     const google = this.props.google;
     var request = {
-            origin:"twitter",
-            destination:"city hall",
+            origin: origin,
+            destination: destination,
             travelMode: google.maps.TravelMode.DRIVING
       };
     this.directionsService.route(request, (response, status) => {
       if (status === "OK") {
-        const stopLocation = new google.maps.LatLng(46.0, -125.9);
-        const routePolyline = new google.maps.Polyline({
-          path: response.routes[0].overview_path,
+        const onLineSpots = [];
+        spots.forEach(spot => {
+          const stopLocation = new google.maps.LatLng(spot.position.lat, spot.position.lng);
+          const routePolyline = new google.maps.Polyline({
+            path: response.routes[0].overview_path,
+          });
+          const onLine = google.maps.geometry.poly.isLocationOnEdge(stopLocation, routePolyline, .005);
+          if (onLine){
+            onLineSpots.push(spot);
+          }
         });
-        const onLine = google.maps.geometry.poly.isLocationOnEdge(stopLocation, routePolyline, 8);
-        console.log(onLine);
+        cb(onLineSpots);
+        this.setState({markers: onLineSpots});
       }
     });
   }
