@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import "./App.css";
 import PassengerTray from "./passenger_tray/passenger_tray";
+import DriverTray from "./driver_tray/driver_tray";
 import Welcome from "./welcome/welcome";
 import Search from "./search/search";
 import Cancel from "./cancel/cancel";
@@ -54,7 +55,8 @@ class App extends Component {
           <Route exact path='/app/search' render={() => <Search {...this.state}/>}/>
           <Route path='/app' render={() => <Map google={this.props.google}/> } />
           <Route path='/app/passenger' render={() => <PassengerTray walkToStop={this.walkToStop.bind(this)} inRange={this.state.inRange} pickupData={this.state.pickupData} {...this.state.passengerData} />} />
-        </div>
+          <Route path='/app/driver' render={ () => <DriverTray passengerData={this.state.passengerData}/>} />
+      </div>
       </BrowserRouter>
     );
   }
