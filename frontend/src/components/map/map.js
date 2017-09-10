@@ -51,6 +51,25 @@ class Map extends Component {
     }
   }
 
+  generateRoute(){
+    const google = this.props.google;
+    var request = {
+            origin:"twitter",
+            destination:"city hall",
+            travelMode: google.maps.TravelMode.DRIVING
+      };
+    this.directionsService.route(request, (response, status) => {
+      if (status === "OK") {
+        const stopLocation = new google.maps.LatLng(46.0, -125.9);
+        const routePolyline = new google.maps.Polyline({
+          path: response.routes[0].overview_path,
+        });
+        const onLine = google.maps.geometry.poly.isLocationOnEdge(stopLocation, routePolyline, 8);
+        console.log(onLine);
+      }
+    });
+  }
+
   search(keyword, location, radius, markerCb) {
     const request = {
       location,
@@ -82,24 +101,6 @@ class Map extends Component {
             />
           }
           onMapLoad={() => console.log("mapload")}
-          onMapClick={() => {
-            var request = {
-                    origin:"twitter",
-                    destination:"city hall",
-                    travelMode: google.maps.TravelMode.DRIVING
-              };
-            this.directionsService.route(request, (response, status) => {
-              if (status === "OK") {
-                const stopLocation = new google.maps.LatLng(46.0, -125.9);
-                const routePolyline = new google.maps.Polyline({
-                  path: response.routes[0].overview_path,
-                });
-                const onLine = google.maps.geometry.poly.isLocationOnEdge(stopLocation, routePolyline, 8);
-                console.log(onLine);
-              }
-            });
-
-          }}
           markers={this.state.markers}
         />
       </div>
