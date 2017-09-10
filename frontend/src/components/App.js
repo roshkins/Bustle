@@ -24,7 +24,11 @@ class App extends Component {
         id: Math.floor(Math.random()*1000),
         spots: [],
         seatCount: 2,
-      }
+      },
+      pickupData: {
+        driverName: "Blair",
+        time: 5,
+      },
     };
     const channel = new RTMChannel("riders", this.recieveData, (e) => console.log(e));
     console.log(channel);
@@ -42,7 +46,7 @@ class App extends Component {
           <Route exact path='/' component={Welcome} />
           <Route exact path='/app/search' render={() => <Search {...this.state}/>}/>
           <Route path='/app' render={() => <Map google={this.props.google}/> } />
-          <Route path='/app/passenger' component={PassengerTray} />
+          <Route path='/app/passenger' render={() => <PassengerTray pickupData={this.state.pickupData} {...this.state.passengerData} />} />
         </div>
     </BrowserRouter>
     );
