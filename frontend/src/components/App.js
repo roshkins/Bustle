@@ -15,6 +15,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.broadcastInterval = null;
     this.resetState();
     this.channel = new RTMChannel("riders", this.recieveData.bind(this), e =>
       console.log(e)
@@ -51,10 +52,24 @@ class App extends Component {
 
   sendDriver(){
     console.log('SEND DRIVER');
+    clearInterval(this.broadcastInterval);
+    this.broadcastInterval = setInterval(() => {
+      this.channel.publish(this.state.driverData)
+    }, 1000);
+    this.channel.getTrip(this.state.driverData.id, res => {
+      console.log("found a rider", res);
+    });
   }
 
   sendPassenger(){
     console.log("SEND PASSENGER");
+    clearInterval(this.broadcastInterval);
+    this.broadcastInterval = setInterval(() => {
+      this.channel.publish(this.state.passengerData)
+    }, 1000);
+    this.channel.getTrip(this.state.passengerData.id, res => {
+      console.log("found a driver", res);
+    });
   }
 
   recieveData(data) {
