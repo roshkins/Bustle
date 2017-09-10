@@ -149,7 +149,22 @@ const names = [
   "Jordan",
   "Howard",
   "Cascadia",
-  "Terrence"
+  "Terrence",
+  "Fong",
+  "Jared",
+  "Pharell",
+  "Fuschia",
+  "Cameron",
+  "Jessica",
+  "Danny",
+  "Jill",
+  "Jack",
+  "Judy",
+  "Jamie",
+  "Mora",
+  "Mandy",
+  "Mancy",
+  "Madeline"
 ];
 
 setInterval(() => {
