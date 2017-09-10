@@ -58,7 +58,7 @@ channel.on("rtm/subscription/data", function(pdu) {
     requestUrl: google
   }
    */
-  console.log(pdu.body);
+  console.log(JSON.stringify(pdu.body));
 });
 
 channel.on("rtm/subscribe/error", function(pdu) {
