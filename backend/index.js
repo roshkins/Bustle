@@ -143,9 +143,20 @@ setInterval(() => {
   const interval = randomIntervalInRange(0, spots.length - 1);
   const message = {
     name: "Charlie",
-    id: 6,
+    id: Math.floor(Math.random() * 1000),
     pickup: spots[interval.low],
     dropoff: spots[interval.high]
   };
   client.publish(channelName, message);
 }, 750);
+
+setInterval(() => {
+  const channelName = "drivers";
+  const interval = randomIntervalInRange(0, spots.length - 1);
+  const message = {
+    name: "Fred",
+    id: Math.floor(Math.random() * 1000),
+    spots: spots.slice(interval.low, interval.high + 1)
+  };
+  if (message.spots.length >= 2) client.publish(channelName, message);
+}, 800);
