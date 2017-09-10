@@ -82,13 +82,21 @@ class App extends Component {
   }
 
   sendPassenger() {
-    console.log("SEND PASSENGER");
     clearInterval(this.broadcastInterval);
-    this.broadcastInterval = setInterval(() => {
-      this.channel.publish(this.state.passengerData);
-    }, 1000);
-    this.channel.getTrip(this.state.passengerData.id, res => {
-      console.log("found a driver", res.driver);
+    this.state.spotSearch(`${this.state.destination.position.lat}, ${this.state.destination.position.lng}`, (spots) => {
+      this.setState({
+        passengerData: {
+          ...this.state.passengerData,
+          pickup: spots[0],
+          dropoff: spots[spots.length-1]
+        }
+      })
+      this.broadcastInterval = setInterval(() => {
+        this.channel.publish(this.state.passengerData);
+      }, 1000);
+      this.channel.getTrip(this.state.passengerData.id, res => {
+        console.log("found a driver", res.driver);
+      });
     });
   }
 
@@ -148,6 +156,7 @@ class App extends Component {
                   console.log("searchCallback", cb);
                   this.setState({ searchDestination: cb });
                 }}
+                spotSearchCallback={(cb) => this.setState({spotSearch: cb})}
                 setDestination={destination => {
                   this.setState({ destination: destination });
                 }}
