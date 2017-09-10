@@ -17,15 +17,17 @@ class App extends Component {
         name: "Pidgeon",
         id: Math.floor(Math.random() * 1000),
         pickup: null,
-        dropoff: null
+        dropoff: null,
+        destination: null
       },
       driverData: {
         name: "Driver8",
         id: Math.floor(Math.random() * 1000),
         spots: [],
-        seatCount: 2,
+        seatCount: 2
       },
-      pickupData:null
+      pickupData: null,
+      searchDestination: null
       //  {
       //   driverName: "Blair",
       //   time: 5,
@@ -44,19 +46,66 @@ class App extends Component {
     console.log(data);
   }
 
-  walkToStop(){
-    this.setState({inRange: true});
+  walkToStop() {
+    this.setState({ inRange: true });
   }
   //passenger Tray props: inRange, inCar, pickupData (checks for presence)
   render() {
+    console.log(this.state);
     return (
       <BrowserRouter>
         <div className="App">
-          <Route path='/' component={Cancel} />
-          <Route exact path='/' component={Welcome} />
-          <Route exact path='/app/search' render={() => <Search {...this.state}/>}/>
-          <Route path='/app' render={() => <Map google={this.props.google}/> } />
-          <Route path='/app/passenger' render={() => <PassengerTray walkToStop={this.walkToStop.bind(this)} inRange={this.state.inRange} pickupData={this.state.pickupData} {...this.state.passengerData} />} />
+          <Route path="/" component={Cancel} />
+          <Route
+            exact
+            path="/"
+            render={() =>
+              <Welcome
+                changeName={name =>
+                  this.setState({
+                    passengerData: { ...this.state.passengerData, name }
+                  })}
+              />}
+          />
+          <Route
+            exact
+            path="/app/search"
+            render={() =>
+              <Search
+                destinationChange={destination => {
+                  this.setState({
+                    passengerData: { ...this.state.passengerData, destination }
+                  });
+                }}
+                searchDestination={queryWords => {
+                  this.state.searchDestination(queryWords);
+                }}
+              />}
+          />
+          <Route
+            path="/app"
+            render={() =>
+              <Map
+                searchCallback={cb => {
+                  console.log("searchCallback", cb);
+                  this.setState({ searchDestination: cb });
+                }}
+                setDestination={destination => {
+                  this.setState({ passengerData: { destination } });
+                }}
+                google={this.props.google}
+              />}
+          />
+          <Route
+            path="/app/passenger"
+            render={() =>
+              <PassengerTray
+                walkToStop={this.walkToStop.bind(this)}
+                inRange={this.state.inRange}
+                pickupData={this.state.pickupData}
+                {...this.state.passengerData}
+              />}
+          />
         </div>
       </BrowserRouter>
     );
