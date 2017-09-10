@@ -58,7 +58,7 @@ channel.on("rtm/subscription/data", function(pdu) {
     requestUrl: google
   }
    */
-  console.log(pdu.body);
+  console.log(JSON.stringify(pdu.body));
 });
 
 channel.on("rtm/subscribe/error", function(pdu) {
@@ -138,14 +138,54 @@ function randomIntervalInRange(low, high) {
   return { high: highReturn, low: randomIntegerInRange(low, highReturn) };
 }
 
+const names = [
+  "Fred",
+  "Ann",
+  "Susan",
+  "Satori",
+  "AngelHack",
+  "Sam",
+  "Rashi",
+  "Jordan",
+  "Howard",
+  "Cascadia",
+  "Terrence",
+  "Fong",
+  "Jared",
+  "Pharell",
+  "Fuschia",
+  "Cameron",
+  "Jessica",
+  "Danny",
+  "Jill",
+  "Jack",
+  "Judy",
+  "Jamie",
+  "Mora",
+  "Mandy",
+  "Mancy",
+  "Madeline"
+];
+
 setInterval(() => {
   const channelName = "riders";
   const interval = randomIntervalInRange(0, spots.length - 1);
   const message = {
-    name: "Charlie",
-    id: 6,
+    name: names[Math.floor(names.length * Math.random())],
+    id: Math.floor(Math.random() * 1000),
     pickup: spots[interval.low],
     dropoff: spots[interval.high]
   };
   client.publish(channelName, message);
 }, 750);
+
+setInterval(() => {
+  const channelName = "drivers";
+  const interval = randomIntervalInRange(0, spots.length - 1);
+  const message = {
+    name: names[Math.floor(names.length * Math.random())],
+    id: Math.floor(Math.random() * 1000),
+    spots: spots.slice(interval.low, interval.high + 1)
+  };
+  if (message.spots.length >= 2) client.publish(channelName, message);
+}, 800);
