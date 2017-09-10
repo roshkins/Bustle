@@ -42,10 +42,16 @@ class RTMChannel {
     this.channel = this.client.subscribe(
       channelName,
       RTM.SubscriptionMode.SIMPLE,
-      { filter: "SELECT * FROM `trips` WHERE rider.id == " + passengerId }
+      {
+        filter:
+          "SELECT * FROM `trips` WHERE rider.id == " +
+          passengerId +
+          "OR driver.id == " +
+          passengerId
+      }
     );
     this.channel.on("rtm/subscription/data", function(pdu) {
-      pdu.body.messages.forEach(msg => tripCallback(msg.driver));
+      pdu.body.messages.forEach(msg => tripCallback(msg));
     });
   }
 }
