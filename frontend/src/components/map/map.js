@@ -5,18 +5,34 @@ import "./map.css";
 const googleMapURL =
   "https://maps.googleapis.com/maps/api/js?v=3.27&libraries=places,geometry&key=AIzaSyCvd5Ry4IK_o-C4LSNwdSuC1-gEhRSahlE&libraries=places";
 
+const GettingStartedGoogleMap = withGoogleMap(props =>
+  <GoogleMap
+    ref={props.mapsMount}
+    defaultZoom={14}
+    defaultCenter={{ lat: 37.773568, lng: -122.4159416 }}
+    onClick={props.onMapClick}
+  >
+    {props.markers.map((marker, index) =>
+      <Marker
+        key={index}
+        {...marker}
+        onRightClick={() => props.onMarkerRightClick(index)}
+      />
+    )}
+  </GoogleMap>
+);
+
 class Map extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state = {markers: []};
+    this.state = { markers: [] };
   }
-
 
   mapsMount(googleMap) {
     // console.log("this.googleMap", googleMap.getDiv());
     // console.log("this.container", this.container);
-    if(!this.hasMounted){
+    this.googleMap = googleMap;
+    if (!this.hasMounted) {
       this.hasMounted = true;
       this.service = new this.props.google.maps.places.PlacesService(
         googleMap.context.__SECRET_MAP_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
@@ -25,30 +41,10 @@ class Map extends Component {
   }
 
   render() {
-    console.log(this.state.markers)
-    const GettingStartedGoogleMap = withGoogleMap(props =>
-      <GoogleMap
-        ref={googleMap => {
-          console.log("googleMapRef", googleMap);
-          this.googleMap = googleMap;
-          this.mapsMount(googleMap);
-        }}
-        defaultZoom={14}
-        defaultCenter={{ lat: 37.773568, lng: -122.4159416 }}
-        onClick={props.onMapClick}
-      >
-        {props.markers.map((marker, index) =>
-          <Marker
-            {...marker}
-            onRightClick={() => props.onMarkerRightClick(index)}
-          />
-        )}
-      </GoogleMap>
-    );
-
     return (
       <div className="map">
         <GettingStartedGoogleMap
+          mapsMount={this.mapsMount.bind(this)}
           containerElement={<div style={{ height: `100%` }} />}
           mapElement={
             <div
@@ -60,18 +56,19 @@ class Map extends Component {
           onMapClick={() => {
             const request = {
               location: this.googleMap.getCenter(),
-              query: "food",
+              keyword: "100 mission st",
               radius: "500"
             };
             this.service.nearbySearch(request, r => {
-              const place = r[0];
-              const marker = {
+              const newMarkers = r.map(place => ({
                 position: {
                   lat: place.geometry.location.lat(),
                   lng: place.geometry.location.lng()
                 }
-              };
-              this.setState({markers: [...this.state.markers, marker]})
+              }));
+              this.setState({
+                markers: [...this.state.markers, ...newMarkers]
+              });
               // this.setState();
               // console.log(this.state.markers)
             });
