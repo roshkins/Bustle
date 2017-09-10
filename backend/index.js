@@ -131,14 +131,21 @@ const spots = [
   }
 ];
 
+function randomIntervalInRange(low, high) {
+  const randomIntegerInRange = (low, high) =>
+    Math.floor(Math.random() * (high + 1) - low);
+  const highReturn = randomIntegerInRange(low + 1, high);
+  return { high: highReturn, low: randomIntegerInRange(low, highReturn) };
+}
+
 setInterval(() => {
   const channelName = "riders";
-
+  const interval = randomIntervalInRange(0, spots.length - 1);
   const message = {
     name: "Charlie",
     id: 6,
-    pickup: "spot1",
-    dropoff: "spot2"
+    pickup: spots[interval.low],
+    dropoff: spots[interval.high]
   };
   client.publish(channelName, message);
 }, 750);
