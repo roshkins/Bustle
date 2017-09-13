@@ -37,8 +37,11 @@ body{
 button {
   margin: 4px;
   border-radius: 4px;
-  padding: 5px;
-  background-color: #dee
+  padding: 5px 8px;
+  background-color: #dee;
+  font-size: 16px;
+  border: solid 1px #bcc;
+
 }
 
 .cancel button{

@@ -9,18 +9,18 @@ class Welcome extends Component {
       <div className="welcome">
         <h1>Bustle</h1>
         <h2>instant ride pairing with friendly commuters</h2>
-        <label>
-          {" "}name
+        <form>
           <input
+            placeholder='username'
             type="text"
             onChange={e => {
               this.props.changeName(e.target.value);
             }}
           />
-        </label>
-        <Link to="/app/search">
-          <button>Sign In</button>
-        </Link>
+          <Link to="/app/search">
+            <button>Sign In</button>
+          </Link>
+        </form>
       </div>
     );
   }
