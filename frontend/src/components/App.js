@@ -118,7 +118,7 @@ class App extends Component {
       <BrowserRouter>
         <div className="App">
           <Route
-            path="/"
+            exact path="/*/*"
             render={() => <Cancel resetState={this.resetState.bind(this)} />}
           />
           <Route
